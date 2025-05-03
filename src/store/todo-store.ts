@@ -1,11 +1,14 @@
 import { atom } from 'jotai';
 import { v4 as uuidv4 } from 'uuid';
 import { TodoId, TodoText, createTodoId, createTodoText } from '../types/branded-types';
+import { Priority } from '../types/todo';
 
 export interface Todo {
   id: TodoId;
   text: TodoText;
   completed: boolean;
+  deadline?: Date;
+  priority: Priority;
 }
 
 const initialTodos: Todo[] = [];
@@ -32,15 +35,34 @@ export const filteredTodosByStatusAtom = atom((get) => {
   }
 });
 
+export interface AddTodoParams {
+  text: string;
+  deadline?: Date;
+  priority: Priority;
+}
+
 export const addTodoAtom = atom(
   null,
-  (get, set, text: string) => {
+  (get, set, params: string | AddTodoParams) => {
     try {
-      const todoText = createTodoText(text);
+      let todoText: TodoText;
+      let deadline: Date | undefined;
+      let priority: Priority = 'medium';
+      
+      if (typeof params === 'string') {
+        todoText = createTodoText(params);
+      } else {
+        todoText = createTodoText(params.text);
+        deadline = params.deadline;
+        priority = params.priority;
+      }
+      
       const newTodo: Todo = {
         id: createTodoId(uuidv4()),
         text: todoText,
-        completed: false
+        completed: false,
+        deadline,
+        priority
       };
       set(todosAtom, [...get(todosAtom), newTodo]);
       return true;
@@ -89,6 +111,34 @@ export const updateTodoTextAtom = atom(
       console.error('Failed to update todo:', error);
       return false;
     }
+  }
+);
+
+export const updateTodoDeadlineAtom = atom(
+  null,
+  (get, set, id: TodoId, deadline: Date | undefined) => {
+    const todos = get(todosAtom);
+    set(
+      todosAtom,
+      todos.map(todo => 
+        todo.id === id ? { ...todo, deadline } : todo
+      )
+    );
+    return true;
+  }
+);
+
+export const updateTodoPriorityAtom = atom(
+  null,
+  (get, set, id: TodoId, priority: Priority) => {
+    const todos = get(todosAtom);
+    set(
+      todosAtom,
+      todos.map(todo => 
+        todo.id === id ? { ...todo, priority } : todo
+      )
+    );
+    return true;
   }
 );
 
