@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
 import { useAtom } from 'jotai';
+import { Plus } from 'lucide-react';
+import type React from 'react';
+import { useState } from 'react';
 import { addTodoAtom } from '../store/todo-store';
 import { isValidTodoText } from '../types/branded-types';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Plus } from 'lucide-react';
 
 const TodoForm: React.FC = () => {
   const [, addTodo] = useAtom(addTodoAtom);
@@ -13,7 +14,7 @@ const TodoForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (isValidTodoText(text)) {
       const success = addTodo(text);
       if (success) {

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Todo, toggleTodoAtom, deleteTodoAtom, updateTodoTextAtom } from '../store/todo-store';
 import { useAtom } from 'jotai';
+import { Check, Pencil, Trash, X } from 'lucide-react';
+import type React from 'react';
+import { useState } from 'react';
+import { type Todo, deleteTodoAtom, toggleTodoAtom, updateTodoTextAtom } from '../store/todo-store';
 import { isValidTodoText } from '../types/branded-types';
-import { Pencil, Trash, Check, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
