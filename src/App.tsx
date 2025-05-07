@@ -1,7 +1,7 @@
-import { Provider } from 'jotai'
-import TodoForm from './components/TodoForm'
-import TodoList from './components/TodoList'
-import './App.css'
+import { Provider } from 'jotai';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import './App.css';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         </div>
       </div>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;
