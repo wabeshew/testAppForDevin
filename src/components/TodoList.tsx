@@ -9,7 +9,8 @@ import {
   toggleTodoAtom,
   deleteTodoAtom,
   updateTodoDeadlineAtom,
-  updateTodoPriorityAtom
+  updateTodoPriorityAtom,
+  Todo
 } from '../store/todo-store';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
@@ -55,7 +56,7 @@ const TodoList: React.FC = () => {
         setSelectedDate(undefined);
         setSelectedPriority('medium');
         setError('');
-      } catch (error) {
+      } catch {
         setError('タスクの追加に失敗しました');
       }
     } else {
@@ -116,7 +117,7 @@ const TodoList: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {todos.map((todo: any) => (
+            {todos.map((todo: Todo) => (
               <div 
                 key={todo.id.toString()} 
                 className={cn(
